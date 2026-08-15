@@ -1,0 +1,337 @@
+<title>燕雲十六聲兌換碼</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --paper: #f3ede0;
+    --paper-raised: #fbf7ee;
+    --ink: #211d17;
+    --ink-soft: #5b5347;
+    --ink-faint: #8c8375;
+    --line: #ddd3c0;
+    --line-soft: #e8e0d0;
+    --jade: #2f7a5a;
+    --jade-deep: #24614799;
+    --jade-tint: #2f7a5a14;
+    --vermilion: #b6482f;
+    --gold: #a9822f;
+    --shadow: 0 1px 2px rgba(33,29,23,.06), 0 6px 20px rgba(33,29,23,.05);
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --paper: #17150f;
+      --paper-raised: #201d15;
+      --ink: #ece5d6;
+      --ink-soft: #b0a891;
+      --ink-faint: #7d7460;
+      --line: #322d22;
+      --line-soft: #29251c;
+      --jade: #5cae86;
+      --jade-deep: #5cae8666;
+      --jade-tint: #5cae8618;
+      --vermilion: #d9765c;
+      --gold: #cba85f;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.28);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #17150f;
+    --paper-raised: #201d15;
+    --ink: #ece5d6;
+    --ink-soft: #b0a891;
+    --ink-faint: #7d7460;
+    --line: #322d22;
+    --line-soft: #29251c;
+    --jade: #5cae86;
+    --jade-deep: #5cae8666;
+    --jade-tint: #5cae8618;
+    --vermilion: #d9765c;
+    --gold: #cba85f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.28);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Segoe UI", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 18px 80px; }
+
+  header {
+    padding: 40px 0 22px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 4px;
+  }
+  .eyebrow {
+    font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--jade); font-weight: 600; margin: 0 0 10px;
+  }
+  h1 {
+    font-family: Georgia, "Songti TC", "Noto Serif TC", serif;
+    font-size: clamp(28px, 6vw, 40px); margin: 0; font-weight: 600;
+    letter-spacing: .02em; text-wrap: balance;
+  }
+  .sub { color: var(--ink-soft); font-size: 14px; margin: 12px 0 0; }
+  .sub a { color: var(--jade); text-decoration: none; border-bottom: 1px solid var(--jade-deep); }
+  .path { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; color: var(--ink); }
+
+  .toolbar {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(8px);
+    padding: 14px 0; margin-bottom: 6px;
+    border-bottom: 1px solid var(--line-soft);
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .search {
+    flex: 1 1 200px; min-width: 0;
+    display: flex; align-items: center; gap: 8px;
+    background: var(--paper-raised); border: 1px solid var(--line);
+    border-radius: 10px; padding: 9px 12px;
+  }
+  .search:focus-within { border-color: var(--jade); box-shadow: 0 0 0 3px var(--jade-tint); }
+  .search svg { flex: none; color: var(--ink-faint); }
+  .search input {
+    border: none; background: none; outline: none; width: 100%;
+    color: var(--ink); font-size: 15px; font-family: inherit;
+  }
+  .stat { font-size: 13px; color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .stat b { color: var(--jade); font-weight: 600; }
+  .ghost {
+    font: inherit; font-size: 13px; cursor: pointer;
+    background: none; border: 1px solid var(--line); color: var(--ink-soft);
+    border-radius: 8px; padding: 8px 12px; transition: .15s;
+  }
+  .ghost:hover { border-color: var(--jade); color: var(--jade); }
+
+  .group { margin-top: 26px; }
+  .group-head {
+    display: flex; align-items: baseline; gap: 12px;
+    padding-bottom: 8px; margin-bottom: 10px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .group-date {
+    font-family: Georgia, serif; font-size: 18px; font-weight: 600; color: var(--ink);
+  }
+  .group-date .tag {
+    font-family: inherit; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--gold); margin-left: 2px;
+  }
+  .group-count { font-size: 12px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+  .group-copyall {
+    margin-left: auto; font: inherit; font-size: 12px; cursor: pointer;
+    background: none; border: none; color: var(--jade); padding: 2px 4px;
+    border-bottom: 1px solid transparent;
+  }
+  .group-copyall:hover { border-bottom-color: var(--jade-deep); }
+
+  .list { display: grid; gap: 7px; }
+  .row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--paper-raised); border: 1px solid var(--line);
+    border-radius: 10px; padding: 4px 4px 4px 14px;
+    box-shadow: var(--shadow); transition: border-color .15s, opacity .15s;
+  }
+  .row:hover { border-color: color-mix(in srgb, var(--jade) 40%, var(--line)); }
+  .code {
+    flex: 1 1 auto; min-width: 0;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: clamp(15px, 3.6vw, 17px); letter-spacing: .04em;
+    color: var(--ink); cursor: pointer; user-select: all;
+    padding: 8px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .copy {
+    flex: none; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--jade-tint); color: var(--jade);
+    border: 1px solid transparent; border-radius: 7px; padding: 8px 13px;
+    transition: .15s;
+  }
+  .copy:hover { background: var(--jade); color: var(--paper-raised); }
+  .copy svg { width: 14px; height: 14px; }
+
+  .row.done { opacity: .5; }
+  .row.done .code { text-decoration: line-through; text-decoration-color: var(--ink-faint); }
+  .row.done .copy { background: none; color: var(--ink-faint); }
+  .row.flash { border-color: var(--jade); }
+
+  .empty { text-align: center; color: var(--ink-faint); padding: 60px 0; font-size: 15px; }
+
+  #toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px);
+    background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 500;
+    padding: 11px 20px; border-radius: 999px; box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    opacity: 0; pointer-events: none; transition: .25s; z-index: 50;
+  }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  footer { margin-top: 46px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-faint); font-size: 12.5px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">兌換碼 · Redemption Codes</p>
+    <h1>燕雲十六聲兌換碼</h1>
+    <p class="sub">
+      收錄自 <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">巴哈姆特哈啦板</a>,
+      自 <span class="path">ks8n4te83k</span>(7/24)起。點按鈕或直接點碼即可複製。
+      遊戲內 <span class="path">設定 → 其他 → 兌換碼</span> 輸入。
+    </p>
+  </header>
+
+  <div class="toolbar">
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="text" placeholder="搜尋兌換碼…" autocomplete="off" spellcheck="false">
+    </label>
+    <span class="stat"><b id="doneCount">0</b> / <span id="totalCount">0</span> 已複製</span>
+    <button class="ghost" id="reset">清除標記</button>
+  </div>
+
+  <main id="list"></main>
+
+  <footer>
+    共 <span id="footTotal">0</span> 組兌換碼。「已複製」標記只存在你的瀏覽器(localStorage),不會上傳。
+    兌換碼可能會過期或失效,以官方與原討論串為準。
+  </footer>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const DATA = [
+  { date: "7/24", codes: ["ks8n4te83k","wtdja7j6n6","hp6pmxj48f","kry7cwy3kd","nmkk6nwwff","XENFQR6RFF","SK7HREDTT3","RSPQME7JFW","fsa7jnantp","dfpyc6dpxq","dqjxnyqnj4","kc6t677dry","hyxjrta37f","wm8e7jjf47","GOOSELOVEU","hxy33fxefm","mn6mxf8qpe","CH8AJWFRRR","QMQW7RQJT6","CYMWMFCJDH","SYDHTJ8QAT","HYXJRTA37F","RAHKHCDYHT","QY6C3RMFJD","EAE36WQHHD","DNKDEWK6FC","EMNQMYM38P"] },
+  { date: "7/26", codes: ["JPYFEX7XF7","PTQNXR3FTQ","RKKF4DNYPD","QH3PH847T3","FX7TQMEKAH","jrnhdch8qd","HSAW8CEAFP","WRTJWQKWAW","wknmdn3npq","myx4nqmffx","wnhmwa337m","wetx4tfctf","ypyfrcrxpy","yje3a74waq","rf4rnqekpc","tkeerpwfyj","tpmc63xw43","nsnpfnkhep","ya8tahp88k","nkd78hq6dd","ncd3863wda","pmnf447mpw","qcmr86maec","eydajhqywd","jwepj6nthf","kcf38qken3","xty6774djh","rjnaaxcqkj","dxwa6mkk87","hr648q8r3q","mprh8dekqq","qf73hnhxtd","sj8866ycdt"] },
+  { date: "7/27", codes: ["xfde6777hx","QYM8CN3D6R","mmchh3awyd","mf3t3q7jdd","qs6ndhjyam","fcac4fnrqf","drac3pqehy","hx37dk8d7y","cymkp48wmq","tj3xcywwr3"] },
+  { date: "7/31", codes: ["PHERCTHKAR","PCQTT46W64","HDAEPCXFRM","FC8Q8TA7HN","kpca7mf6kn","sxmwnahyxy","rkwfyda4a7","ekamfqh6mk","pdm68qhxm8","KH4FPNNRC6","EEC8DXA63X","ew3kp6cdkf","xdy3qf6pj6","RHDNNKKW4R","XXEHQ8XKK3","CP434JE4JT","WWMR3DD1T","sajmdp88et","dd38h44tyh","WQ7HMATQEK"] },
+  { date: "8/2", codes: ["JJHAA8PYA7","PE7W8MRH76","jsye7wxyff","wdtqxrw4ew","RSNAW67ATQ"] },
+  { date: "8/3", codes: ["BOSSSLAYER"] },
+  { date: "8/4", codes: ["SKFW3FXHER","QQ8FHPMN3C"] },
+  { date: "8/6", codes: ["WWM20261114"] },
+  { date: "8/7", codes: ["tyrnnjh6ya","FRPCFXY38R","XRTH7DEWHW","er46p3ec6a","qwd3fpyycm"] },
+  { date: "8/10", codes: ["ewrwwjmxfk"] },
+  { date: "常駐 / 長期", tag: "含到期日", codes: ["GOOSENEWS｜3/31到期","DEVLOG2601｜3/6到期","WWM251115","YYSLSTIB｜1/31截止","WWMGLtiktok","WWMGLyoutube","WWMGO1114","WWMGO1115","WWMQC1","WWMQC2","WWMQC3","WWMQC4","WWMQC5","WWMQC6","WWMQC7","WWMQC8","WWMQC9","WWMQC10","WWMQC11","WWMQC12","WWMQC13","WWMQC14","WWMQC15","WWMQC16","WWMQC17","WWMQC18","WWMQC19","WWMQC20","WWMQC21","WWMQC22","WWMQC23","WWMQC24","WWMQC25","WWMQC26","WWMQC27","WWMQC28","WWMQC29","WWMQC30","WWMREDDIT","MCPT3JF473","PMWCTDX7PK","qxe6rhne3r","jmkadawwwm","XDKHDDPPKN","RAXFT7K8R7","RNAT7QJ6X3","JXC8R8KMCW","HY6JJ74JTT","ead6exna4a","wfnracm4rw","jf3myhdkwx","pmhxdphkqt","xtq3ntj8fa","psytndr6y7","rxn43jtdta","KQ66HYWCMW","QSFKRPCT4Q","NN6K8JXEQR","PENQDXYJX6","HDCM37C8T8","MTPMTWQ7QN","HECR6ADEWK","AC46AQH368","QMQCJK7WC7","XD6TWNAQ3D","DQTEXM8DMH","EPFXQKJ8FX","XCANFDTE8J","TSCMFPNYRQ","KW7C4KCJ4F","JTATEPNY3W","XMH4XRD6Q7","MF3FQ3YCFR","PW7WM4A33Y","FQRR4HW38N","AMWHXMXNWW","RNHRPD6FN8","FN4DAJWAKD","YQTWNQKJJE","KTJWN6EQR6","ESJCRRJC64","AMTRC8F3AJ","WWMDEVTALK","TF37WR876K","HEXI0306","MEETINHEXI","LIANGZHOU0402","LIANGZHOUGO","QINCHUAN0430","QINCHUANGOGO","HAPPY515","PALACE0528","PALACEGO","HEXIGOGO","WWMREDDIT0625"] },
+];
+
+// each code entry may carry a "｜note"; the redeemable value is the part before ｜
+const codeValue = raw => raw.split("｜")[0];
+
+const KEY = "wwm-codes-done";
+let done = new Set(JSON.parse(localStorage.getItem(KEY) || "[]"));
+const save = () => localStorage.setItem(KEY, JSON.stringify([...done]));
+
+const copyIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+const checkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>';
+
+const listEl = document.getElementById("list");
+const toast = document.getElementById("toast");
+let toastTimer;
+
+const allCodes = DATA.flatMap(g => g.codes);
+document.getElementById("totalCount").textContent =
+  document.getElementById("footTotal").textContent = allCodes.length;
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 1600);
+}
+
+async function copy(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const t = document.createElement("textarea");
+    t.value = text; t.style.position = "fixed"; t.style.opacity = "0";
+    document.body.appendChild(t); t.select();
+    document.execCommand("copy"); t.remove();
+  }
+}
+
+function markDone(raw, row) {
+  done.add(raw); save(); row.classList.add("done"); updateStat();
+}
+
+function copyOne(raw, row) {
+  const val = codeValue(raw);
+  copy(val);
+  showToast("已複製  " + val);
+  row.classList.add("flash");
+  setTimeout(() => row.classList.remove("flash"), 350);
+  markDone(raw, row);
+}
+
+function updateStat() {
+  document.getElementById("doneCount").textContent =
+    allCodes.filter(c => done.has(c)).length;
+}
+
+function render(filter = "") {
+  const f = filter.trim().toLowerCase();
+  listEl.innerHTML = "";
+  let shown = 0;
+
+  DATA.forEach(group => {
+    const matches = group.codes.filter(c => codeValue(c).toLowerCase().includes(f));
+    if (!matches.length) return;
+    shown += matches.length;
+
+    const section = document.createElement("section");
+    section.className = "group";
+    section.innerHTML = `
+      <div class="group-head">
+        <span class="group-date">${group.date}${group.tag ? ` <span class="tag">${group.tag}</span>` : ""}</span>
+        <span class="group-count">${matches.length} 組</span>
+        <button class="group-copyall">複製整組</button>
+      </div>
+      <div class="list"></div>`;
+    const rows = section.querySelector(".list");
+
+    matches.forEach(raw => {
+      const val = codeValue(raw);
+      const note = raw.includes("｜") ? raw.split("｜")[1] : "";
+      const row = document.createElement("div");
+      row.className = "row" + (done.has(raw) ? " done" : "");
+      const label = note
+        ? `${val} <span style="color:var(--vermilion);font-size:12px;letter-spacing:0">（${note}）</span>`
+        : val;
+      row.innerHTML = `
+        <span class="code" title="點擊複製">${label}</span>
+        <button class="copy">${copyIcon}<span>複製</span></button>`;
+      row.querySelector(".code").addEventListener("click", () => copyOne(raw, row));
+      row.querySelector(".copy").addEventListener("click", () => copyOne(raw, row));
+      rows.appendChild(row);
+    });
+
+    section.querySelector(".group-copyall").addEventListener("click", () => {
+      const text = matches.map(codeValue).join("\n");
+      copy(text);
+      showToast(`已複製整組 ${matches.length} 組(換行分隔)`);
+      matches.forEach(raw => done.add(raw));
+      save();
+      section.querySelectorAll(".row").forEach(r => r.classList.add("done"));
+      updateStat();
+    });
+
+    listEl.appendChild(section);
+  });
+
+  if (!shown) listEl.innerHTML = `<p class="empty">找不到符合「${filter}」的兌換碼</p>`;
+  updateStat();
+}
+
+document.getElementById("q").addEventListener("input", e => render(e.target.value));
+document.getElementById("reset").addEventListener("click", () => {
+  if (!done.size) { showToast("目前沒有標記"); return; }
+  done.clear(); save();
+  render(document.getElementById("q").value);
+  showToast("已清除所有標記");
+});
+
+render();
+</script>
