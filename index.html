@@ -75,6 +75,7 @@
     font-size: clamp(28px, 6vw, 40px); margin: 0; font-weight: 600;
     letter-spacing: .02em; text-wrap: balance;
   }
+  .updated { margin: 10px 0 0; font-size: 12.5px; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
   .sub { color: var(--ink-soft); font-size: 14px; margin: 12px 0 0; }
   .sub a { color: var(--jade); text-decoration: none; border-bottom: 1px solid var(--jade-deep); cursor: pointer; }
   .sub.note { margin-top: 8px; font-size: 13px; color: var(--ink-faint); }
@@ -237,6 +238,7 @@
   <header>
     <p class="eyebrow">兌換碼 · Redemption Codes</p>
     <h1>燕雲十六聲兌換碼</h1>
+    <p class="updated">最新更新時間:2026/08/22</p>
     <p class="sub">
       收錄自 <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">巴哈姆特哈啦板</a>,
       自 7/9(<span class="path">JXT3CTJHWP</span>)起。點按鈕或直接點碼即可複製。
@@ -288,30 +290,24 @@
 
 <script>
 const DATA = [
-  { date: "8/21", codes: ["HXAFXWMTPH","JAAJQQE6DJ","FJ6QXW7MQE","wmkyn6pk8n","AQ3QRN6KNJ","FEJH7KMAHX","PHEK7MRDMP","TS8XM7Q6AJ","SNEXA3NDN3"] },
+  // 以下 8/21、8/22 來源:巴哈姆特哈啦板 214 樓
+  { date: "8/22", codes: ["QCTY47Q6FT","CWDWTCX3DN"] },
+  { date: "8/21", codes: ["HXAFXWMTPH","JAAJQQE6DJ","FJ6QXW7MQE","wmkyn6pk8n","AQ3QRN6KNJ","FEJH7KMAHX","PHEK7MRDMP","TS8XM7Q6AJ","SNEXA3NDN3","FQDHYY43TW","MFPA3FWHJN","MDNH8NWQX3","NN8QMK76MM","CCXWDQPRD7"] },
   { date: "8/20", codes: ["DQ8T6RFW8J","FRF6KXEM6K","eecwt48nq3","ACT783EWC4","CC3ETYXWJE","QPCAY66MNA","SNY8KPX3FX"] },
   { date: "8/19", codes: ["AHPCTHCY8R","HMCHAP2","WWMR3DD1T01"] },
-  { date: "8/18", codes: ["CCPDDACMN8"] },
   { date: "8/17", codes: ["HM0820"] },
-  { date: "8/14", codes: ["NPEHHEWAPH","HSEXEQ7XH3"] },
-  { date: "8/11", codes: ["wahndy4me3"] },
   { date: "8/10", codes: ["ewrwwjmxfk"] },
-  { date: "8/7", codes: ["tyrnnjh6ya","FRPCFXY38R","XRTH7DEWHW","er46p3ec6a","qwd3fpyycm"] },
   { date: "8/6", codes: ["WWM20261114"] },
-  { date: "8/4", codes: ["SKFW3FXHER","QQ8FHPMN3C"] },
   { date: "8/3", codes: ["BOSSSLAYER"] },
-  { date: "8/2", codes: ["JJHAA8PYA7","PE7W8MRH76","jsye7wxyff","wdtqxrw4ew","RSNAW67ATQ"] },
-  { date: "7/31", codes: ["PHERCTHKAR","PCQTT46W64","HDAEPCXFRM","FC8Q8TA7HN","kpca7mf6kn","sxmwnahyxy","rkwfyda4a7","ekamfqh6mk","pdm68qhxm8","KH4FPNNRC6","EEC8DXA63X","ew3kp6cdkf","xdy3qf6pj6","RHDNNKKW4R","XXEHQ8XKK3","CP434JE4JT","WWMR3DD1T","sajmdp88et","dd38h44tyh","WQ7HMATQEK"] },
-  { date: "7/27", codes: ["xfde6777hx","QYM8CN3D6R","mmchh3awyd","mf3t3q7jdd","qs6ndhjyam","fcac4fnrqf","drac3pqehy","hx37dk8d7y","cymkp48wmq","tj3xcywwr3"] },
-  { date: "7/26", codes: ["JPYFEX7XF7","PTQNXR3FTQ","RKKF4DNYPD","QH3PH847T3","FX7TQMEKAH","jrnhdch8qd","HSAW8CEAFP","WRTJWQKWAW","wknmdn3npq","myx4nqmffx","wnhmwa337m","wetx4tfctf","ypyfrcrxpy","yje3a74waq","rf4rnqekpc","tkeerpwfyj","tpmc63xw43","nsnpfnkhep","ya8tahp88k","nkd78hq6dd","ncd3863wda","pmnf447mpw","qcmr86maec","eydajhqywd","jwepj6nthf","kcf38qken3","xty6774djh","rjnaaxcqkj","dxwa6mkk87","hr648q8r3q","mprh8dekqq","qf73hnhxtd","sj8866ycdt"] },
-  { date: "7/24", codes: ["ks8n4te83k","wtdja7j6n6","hp6pmxj48f","kry7cwy3kd","nmkk6nwwff","XENFQR6RFF","SK7HREDTT3","RSPQME7JFW","fsa7jnantp","dfpyc6dpxq","dqjxnyqnj4","kc6t677dry","hyxjrta37f","wm8e7jjf47","GOOSELOVEU","hxy33fxefm","mn6mxf8qpe","CH8AJWFRRR","QMQW7RQJT6","CYMWMFCJDH","SYDHTJ8QAT","HYXJRTA37F","RAHKHCDYHT","QY6C3RMFJD","EAE36WQHHD","DNKDEWK6FC","EMNQMYM38P"] },
+  { date: "7/31", codes: ["kpca7mf6kn"] },
+  { date: "7/24", codes: ["GOOSELOVEU"] },
   { date: "7/23", codes: ["GOOSELOVEU","0723HMGO","FINALTRUTH"] },
   { date: "7/16", codes: ["MEETINHM"] },
   { date: "7/12", codes: ["jpp8wcwphe","sck3jftf7m","wj8n4ahdmk"] },
   { date: "7/11", codes: ["RN8T4EWWD7","NQP4YKKFJ4"] },
   { date: "7/10", codes: ["MX8MYAYJ4Q"] },
   { date: "7/9", codes: ["JXT3CTJHWP"] },
-  { date: "無時限", tag: "No expiry", codes: ["WWMXATM0501","HOMESTEAD0625","GOHOME123","yryqhtneda","tsy7rd6jtm","EJXXHKDHHK","PEE6RWWEFK","MFDTMT3YMA","TNHP8E8W3T","hh6am6c8rf","YYP4QNC7NQ","THMQNAFXQC","TD8XMRKJMK","DTXHCJ6DNN","HK367A6FDJ","cw4ap7aa6t","krda7x3axy","XQFWEQMKMX","kwafcwdfjf","kj4yf433mn","keryf4rxm4","rycdp8mmnh","SE3RNWEDAT","FN6AHA3T7N","YY3NQAJ7WJ","NSAHT7AHKJ","QSD4JECMQD","RP68WW3NY6","ARN8KQJAET","MAWQA8HR48","WH7PRYFFPA","HD4CRCHPTN","FXA7WPXP6C","PXYR8M4AJJ","HSM84QD8DQ","HSWW3NCEKY","RNTF3MMTMR","MKTQJR3DMA","KAAYFMX7HP","NKTTCPETYC","HD8PHDX443","FHKD7HHWRJ","AWTE43FCP7","TAC6PXMFAR","DHR7N8HR4R","XRKPY6C38A","EKNAPHAHYY","WK7K8RY8JJ","qtnjp7p4pc","SY3KQQE8KR","EKMW673Q8A","PAM46YAQ86","NY4TTJKEKQ","TPCF3FEN6Y","NK4AJFPDWC","JJXDTKCD8Y","swcqqqhwae","KPC346C44A","PJCXEP4MFT","FHHXEYRJAN","APE6NNXY4K","NDETCQEXHF","CP8WMH8W4C","XM8AQFRCPX","QSFXR8EE8D","MQECJKF7AR","TP78EF43YH"] },
+  { date: "無時限", tag: "No expiry", codes: ["WWMXATM0501","HOMESTEAD0625","yryqhtneda","tsy7rd6jtm","EJXXHKDHHK","PEE6RWWEFK","MFDTMT3YMA","TNHP8E8W3T","hh6am6c8rf","YYP4QNC7NQ","THMQNAFXQC","TD8XMRKJMK","DTXHCJ6DNN","HK367A6FDJ","cw4ap7aa6t","krda7x3axy","XQFWEQMKMX","kwafcwdfjf","kj4yf433mn","keryf4rxm4","rycdp8mmnh","SE3RNWEDAT","FN6AHA3T7N","YY3NQAJ7WJ","NSAHT7AHKJ","QSD4JECMQD","RP68WW3NY6","ARN8KQJAET","MAWQA8HR48","WH7PRYFFPA","HD4CRCHPTN","FXA7WPXP6C","PXYR8M4AJJ","HSM84QD8DQ","HSWW3NCEKY","RNTF3MMTMR","MKTQJR3DMA","KAAYFMX7HP","NKTTCPETYC","HD8PHDX443","FHKD7HHWRJ","AWTE43FCP7","TAC6PXMFAR","DHR7N8HR4R","XRKPY6C38A","EKNAPHAHYY","WK7K8RY8JJ","qtnjp7p4pc","SY3KQQE8KR","EKMW673Q8A","PAM46YAQ86","NY4TTJKEKQ","TPCF3FEN6Y","NK4AJFPDWC","JJXDTKCD8Y","swcqqqhwae","KPC346C44A","PJCXEP4MFT","FHHXEYRJAN","APE6NNXY4K","NDETCQEXHF","CP8WMH8W4C","XM8AQFRCPX","QSFXR8EE8D","MQECJKF7AR","TP78EF43YH"] },
 ];
 
 // each code entry may carry a "｜note"; the redeemable value is the part before ｜
