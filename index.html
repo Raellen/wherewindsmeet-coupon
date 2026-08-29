@@ -92,8 +92,33 @@
   .author-btn svg { width: 15px; height: 15px; }
   .path { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; color: var(--ink); }
 
+  .nav {
+    position: sticky; top: 0; z-index: 20; height: 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-brand {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: Georgia, "Songti TC", "Noto Serif TC", serif;
+    font-size: 16px; font-weight: 600; letter-spacing: .02em;
+    color: var(--ink); text-decoration: none; cursor: pointer;
+  }
+  .nav-brand svg { width: 18px; height: 18px; color: var(--jade); }
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .lang-btn {
+    font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--jade-tint); color: var(--jade);
+    border: 1px solid var(--jade-deep); border-radius: 8px; padding: 7px 13px;
+    transition: .15s;
+  }
+  .lang-btn:hover { background: var(--jade); color: var(--paper-raised); border-color: transparent; }
+  .lang-btn svg { width: 14px; height: 14px; }
+
   .toolbar {
-    position: sticky; top: 0; z-index: 10;
+    position: sticky; top: 52px; z-index: 10;
     background: color-mix(in srgb, var(--paper) 88%, transparent);
     backdrop-filter: blur(8px);
     padding: 14px 0; margin-bottom: 6px;
@@ -236,6 +261,19 @@
 </style>
 
 <div class="wrap">
+  <nav class="nav">
+    <a class="nav-brand" id="navBrand" href="#top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+      <span id="navBrandText">燕雲兌換碼</span>
+    </a>
+    <div class="nav-actions">
+      <button class="lang-btn" id="langToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
+        <span id="langToggleText">EN</span>
+      </button>
+    </div>
+  </nav>
+
   <header>
     <p class="eyebrow" id="eyebrow">兌換碼 · Redemption Codes</p>
     <h1 id="title">燕雲十六聲兌換碼</h1>
@@ -254,7 +292,6 @@
       <input id="q" type="text" placeholder="搜尋兌換碼…" autocomplete="off" spellcheck="false">
     </label>
     <span class="stat"><b id="doneCount">0</b> / <span id="totalCount">0</span> <span id="statLabel">已複製</span></span>
-    <button class="ghost" id="langToggle">EN</button>
     <button class="ghost" id="reset">清除標記</button>
   </div>
 
@@ -334,6 +371,7 @@ const I18N = {
   zh: {
     htmlLang: "zh-Hant",
     docTitle: "燕雲十六聲兌換碼",
+    navBrand: "燕雲兌換碼",
     eyebrow: "兌換碼 · Redemption Codes",
     title: "燕雲十六聲兌換碼",
     updatedLabel: "最新更新時間",
@@ -366,6 +404,7 @@ const I18N = {
   en: {
     htmlLang: "en",
     docTitle: "Where Winds Meet Redemption Codes",
+    navBrand: "WWM Codes",
     eyebrow: "Redemption Codes",
     title: "Where Winds Meet Codes",
     updatedLabel: "Last updated",
@@ -436,8 +475,10 @@ function applyLang() {
   document.getElementById("footer").textContent = d.footer(allCodes.length);
   const tt = document.getElementById("toTop");
   if (tt) { tt.title = d.toTop; tt.setAttribute("aria-label", d.toTop); }
+  setText("navBrandText", d.navBrand);
+  setText("langToggleText", d.toggle);
   const tg = document.getElementById("langToggle");
-  if (tg) { tg.textContent = d.toggle; tg.title = d.toggleTitle; }
+  if (tg) tg.title = d.toggleTitle;
 }
 
 function showToast(msg) {
@@ -557,6 +598,16 @@ document.getElementById("langToggle").addEventListener("click", () => {
 
 applyLang();
 render();
+
+// navbar 品牌:回到最上面
+(() => {
+  const brand = document.getElementById("navBrand");
+  if (!brand) return;
+  brand.addEventListener("click", e => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+})();
 
 // 回到最上面按鈕
 (() => {
