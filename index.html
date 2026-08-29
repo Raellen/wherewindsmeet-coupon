@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>燕雲十六聲兌換碼</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -236,18 +237,14 @@
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">兌換碼 · Redemption Codes</p>
-    <h1>燕雲十六聲兌換碼</h1>
-    <p class="updated">最新更新時間:2026/08/29</p>
-    <p class="sub">
-      收錄自 <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">巴哈姆特哈啦板</a>,
-      自 7/9(<span class="path">JXT3CTJHWP</span>)起。點按鈕或直接點碼即可複製。
-      遊戲內 <span class="path">設定 → 其他 → 兌換碼</span> 輸入。
-    </p>
-    <p class="sub note">發現失效的兌換碼?歡迎<a id="report" href="#">來信告知</a>,幫助大家。</p>
+    <p class="eyebrow" id="eyebrow">兌換碼 · Redemption Codes</p>
+    <h1 id="title">燕雲十六聲兌換碼</h1>
+    <p class="updated"><span id="updatedLabel">最新更新時間</span>:2026/08/29</p>
+    <p class="sub" id="intro"></p>
+    <p class="sub note" id="note"></p>
     <a class="author-btn" href="#author">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-      作者介紹
+      <span id="authorBtnText">作者介紹</span>
     </a>
   </header>
 
@@ -256,7 +253,8 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="q" type="text" placeholder="搜尋兌換碼…" autocomplete="off" spellcheck="false">
     </label>
-    <span class="stat"><b id="doneCount">0</b> / <span id="totalCount">0</span> 已複製</span>
+    <span class="stat"><b id="doneCount">0</b> / <span id="totalCount">0</span> <span id="statLabel">已複製</span></span>
+    <button class="ghost" id="langToggle">EN</button>
     <button class="ghost" id="reset">清除標記</button>
   </div>
 
@@ -265,21 +263,18 @@
   <section class="author" id="author">
     <div class="author-avatar"><img src="avatar.png" alt="芮璃"></div>
     <div class="author-info">
-      <p class="author-name">芮璃</p>
+      <p class="author-name" id="authorName">芮璃</p>
       <p class="author-id">
-        角色編號 <span class="path">3062024361</span>
-        <button class="idcopy" id="idcopy" title="複製角色編號">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>複製
+        <span id="authorIdLabel">角色編號</span> <span class="path">3062024361</span>
+        <button class="idcopy" id="idcopy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span id="idCopyText">複製</span>
         </button>
       </p>
-      <p class="author-tag">本站作者 · 燕雲十六聲</p>
+      <p class="author-tag" id="authorTag">本站作者 · 燕雲十六聲</p>
     </div>
   </section>
 
-  <footer>
-    共 <span id="footTotal">0</span> 組兌換碼。「已複製」標記只存在你的瀏覽器(localStorage),不會上傳。
-    兌換碼可能會過期或失效,以官方與原討論串為準。
-  </footer>
+  <footer id="footer"></footer>
 </div>
 
 <button id="toTop" title="回到最上面" aria-label="回到最上面">
@@ -332,8 +327,118 @@ const toast = document.getElementById("toast");
 let toastTimer;
 
 const allCodes = DATA.flatMap(g => g.codes);
-document.getElementById("totalCount").textContent =
-  document.getElementById("footTotal").textContent = allCodes.length;
+document.getElementById("totalCount").textContent = allCodes.length;
+
+// ---- 雙語 i18n ----
+const I18N = {
+  zh: {
+    htmlLang: "zh-Hant",
+    docTitle: "燕雲十六聲兌換碼",
+    eyebrow: "兌換碼 · Redemption Codes",
+    title: "燕雲十六聲兌換碼",
+    updatedLabel: "最新更新時間",
+    intro: `收錄自 <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">巴哈姆特哈啦板</a>,自 7/9(<span class="path">JXT3CTJHWP</span>)起。點按鈕或直接點碼即可複製。遊戲內 <span class="path">設定 → 其他 → 兌換碼</span> 輸入。`,
+    note: `發現失效的兌換碼?歡迎<a id="report" href="#">來信告知</a>,幫助大家。`,
+    authorBtn: "作者介紹",
+    searchPlaceholder: "搜尋兌換碼…",
+    statLabel: "已複製",
+    reset: "清除標記",
+    groupCount: n => `${n} 組`,
+    copyAll: "複製整組",
+    copy: "複製",
+    codeTitle: "點擊複製",
+    noExpiry: "無時限",
+    authorName: "芮璃",
+    authorIdLabel: "角色編號",
+    idCopy: "複製",
+    authorTag: "本站作者 · 燕雲十六聲",
+    footer: total => `共 ${total} 組兌換碼。「已複製」標記只存在你的瀏覽器(localStorage),不會上傳。兌換碼可能會過期或失效,以官方與原討論串為準。`,
+    toTop: "回到最上面",
+    empty: f => `找不到符合「${f}」的兌換碼`,
+    copied: v => "已複製  " + v,
+    copiedGroup: n => `已複製整組 ${n} 組(換行分隔)`,
+    copiedId: id => "已複製角色編號  " + id,
+    noMarks: "目前沒有標記",
+    cleared: "已清除所有標記",
+    toggle: "EN",
+    toggleTitle: "Switch to English",
+  },
+  en: {
+    htmlLang: "en",
+    docTitle: "Where Winds Meet Redemption Codes",
+    eyebrow: "Redemption Codes",
+    title: "Where Winds Meet Codes",
+    updatedLabel: "Last updated",
+    intro: `Collected from the <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">Bahamut forum</a>, starting 7/9 (<span class="path">JXT3CTJHWP</span>). Click a button or the code itself to copy. Redeem in-game via <span class="path">Settings → Other → Redemption Code</span>.`,
+    note: `Found an expired code? Please <a id="report" href="#">let me know</a> to help others.`,
+    authorBtn: "About the author",
+    searchPlaceholder: "Search codes…",
+    statLabel: "copied",
+    reset: "Clear marks",
+    groupCount: n => `${n} code${n > 1 ? "s" : ""}`,
+    copyAll: "Copy all",
+    copy: "Copy",
+    codeTitle: "Click to copy",
+    noExpiry: "No Expiry",
+    authorName: "芮璃 (Ruili)",
+    authorIdLabel: "Character ID",
+    idCopy: "Copy",
+    authorTag: "Site author · Where Winds Meet",
+    footer: total => `${total} codes in total. The “copied” marks live only in your browser (localStorage) and are never uploaded. Codes may expire or become invalid — refer to official sources and the original thread.`,
+    toTop: "Back to top",
+    empty: f => `No codes matching “${f}”`,
+    copied: v => "Copied  " + v,
+    copiedGroup: n => `Copied ${n} code${n > 1 ? "s" : ""} (newline-separated)`,
+    copiedId: id => "Copied character ID  " + id,
+    noMarks: "No marks yet",
+    cleared: "All marks cleared",
+    toggle: "中文",
+    toggleTitle: "切換為中文",
+  },
+};
+
+const LANG_KEY = "wwm-lang";
+let lang = localStorage.getItem(LANG_KEY) ||
+  ((navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en");
+const t = () => I18N[lang];
+
+const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+
+function bindReport() {
+  const el = document.getElementById("report");
+  if (!el) return;
+  el.addEventListener("click", e => {
+    e.preventDefault();
+    const user = ["raellen", "chang"].join(".");
+    const host = ["gmail", "com"].join(".");
+    location.href = `mailto:${user}@${host}?subject=${encodeURIComponent("燕雲兌換碼失效回報")}`;
+  });
+}
+
+function applyLang() {
+  const d = t();
+  document.documentElement.lang = d.htmlLang;
+  document.title = d.docTitle;
+  setText("eyebrow", d.eyebrow);
+  setText("title", d.title);
+  setText("updatedLabel", d.updatedLabel);
+  document.getElementById("intro").innerHTML = d.intro;
+  document.getElementById("note").innerHTML = d.note;
+  bindReport();
+  setText("authorBtnText", d.authorBtn);
+  document.getElementById("q").placeholder = d.searchPlaceholder;
+  setText("statLabel", d.statLabel);
+  setText("reset", d.reset);
+  setText("authorName", d.authorName);
+  setText("authorIdLabel", d.authorIdLabel);
+  setText("idCopyText", d.idCopy);
+  setText("authorTag", d.authorTag);
+  document.getElementById("footer").textContent = d.footer(allCodes.length);
+  const tt = document.getElementById("toTop");
+  if (tt) { tt.title = d.toTop; tt.setAttribute("aria-label", d.toTop); }
+  const tg = document.getElementById("langToggle");
+  if (tg) { tg.textContent = d.toggle; tg.title = d.toggleTitle; }
+}
 
 function showToast(msg) {
   toast.textContent = msg;
@@ -360,7 +465,7 @@ function markDone(raw, row) {
 function copyOne(raw, row) {
   const val = codeValue(raw);
   copy(val);
-  showToast("已複製  " + val);
+  showToast(t().copied(val));
   row.classList.add("flash");
   setTimeout(() => row.classList.remove("flash"), 350);
   markDone(raw, row);
@@ -376,19 +481,22 @@ function render(filter = "") {
   listEl.innerHTML = "";
   let shown = 0;
 
+  const d = t();
   // 儲存順序為舊→新;顯示時反向,讓新的(陣列尾端)排在上面
   [...DATA].reverse().forEach(group => {
     const matches = [...group.codes].reverse().filter(c => codeValue(c).toLowerCase().includes(f));
     if (!matches.length) return;
     shown += matches.length;
 
+    const dateLabel = group.date === "無時限" ? d.noExpiry : group.date;
+    const tagHtml = (group.tag && lang === "zh") ? ` <span class="tag">${group.tag}</span>` : "";
     const section = document.createElement("section");
     section.className = "group";
     section.innerHTML = `
       <div class="group-head">
-        <span class="group-date">${group.date}${group.tag ? ` <span class="tag">${group.tag}</span>` : ""}</span>
-        <span class="group-count">${matches.length} 組</span>
-        <button class="group-copyall">複製整組</button>
+        <span class="group-date">${dateLabel}${tagHtml}</span>
+        <span class="group-count">${d.groupCount(matches.length)}</span>
+        <button class="group-copyall">${d.copyAll}</button>
       </div>
       <div class="list"></div>`;
     const rows = section.querySelector(".list");
@@ -402,8 +510,8 @@ function render(filter = "") {
         ? `${val} <span style="color:var(--vermilion);font-size:12px;letter-spacing:0">（${note}）</span>`
         : val;
       row.innerHTML = `
-        <span class="code" title="點擊複製">${label}</span>
-        <button class="copy">${copyIcon}<span>複製</span></button>`;
+        <span class="code" title="${d.codeTitle}">${label}</span>
+        <button class="copy">${copyIcon}<span>${d.copy}</span></button>`;
       row.querySelector(".code").addEventListener("click", () => copyOne(raw, row));
       row.querySelector(".copy").addEventListener("click", () => copyOne(raw, row));
       rows.appendChild(row);
@@ -412,7 +520,7 @@ function render(filter = "") {
     section.querySelector(".group-copyall").addEventListener("click", () => {
       const text = matches.map(codeValue).join("\n");
       copy(text);
-      showToast(`已複製整組 ${matches.length} 組(換行分隔)`);
+      showToast(t().copiedGroup(matches.length));
       matches.forEach(raw => done.add(raw));
       save();
       section.querySelectorAll(".row").forEach(r => r.classList.add("done"));
@@ -422,18 +530,32 @@ function render(filter = "") {
     listEl.appendChild(section);
   });
 
-  if (!shown) listEl.innerHTML = `<p class="empty">找不到符合「${filter}」的兌換碼</p>`;
+  if (!shown) {
+    const p = document.createElement("p");
+    p.className = "empty";
+    p.textContent = t().empty(filter);
+    listEl.appendChild(p);
+  }
   updateStat();
 }
 
 document.getElementById("q").addEventListener("input", e => render(e.target.value));
 document.getElementById("reset").addEventListener("click", () => {
-  if (!done.size) { showToast("目前沒有標記"); return; }
+  if (!done.size) { showToast(t().noMarks); return; }
   done.clear(); save();
   render(document.getElementById("q").value);
-  showToast("已清除所有標記");
+  showToast(t().cleared);
 });
 
+// 語言切換
+document.getElementById("langToggle").addEventListener("click", () => {
+  lang = lang === "zh" ? "en" : "zh";
+  localStorage.setItem(LANG_KEY, lang);
+  applyLang();
+  render(document.getElementById("q").value);
+});
+
+applyLang();
 render();
 
 // 回到最上面按鈕
@@ -452,20 +574,7 @@ render();
   if (!btn) return;
   btn.addEventListener("click", () => {
     copy("3062024361");
-    showToast("已複製角色編號  3062024361");
-  });
-})();
-
-// 拼裝回報信箱,避免以純文字被爬蟲收集
-(() => {
-  const el = document.getElementById("report");
-  if (!el) return;
-  const user = ["raellen", "chang"].join(".");
-  const host = ["gmail", "com"].join(".");
-  const subject = encodeURIComponent("燕雲兌換碼失效回報");
-  el.addEventListener("click", e => {
-    e.preventDefault();
-    location.href = `mailto:${user}@${host}?subject=${subject}`;
+    showToast(t().copiedId("3062024361"));
   });
 })();
 </script>
