@@ -376,8 +376,8 @@ const I18N = {
     eyebrow: "兌換碼 · Redemption Codes",
     title: "燕雲十六聲兌換碼",
     updatedLabel: "最新更新時間",
-    intro: `收錄自 <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">巴哈姆特哈啦板</a>,自 7/9(<span class="path">JXT3CTJHWP</span>)起。點按鈕或直接點碼即可複製。遊戲內 <span class="path">設定 → 其他 → 兌換碼</span> 輸入。`,
-    note: `發現失效的兌換碼?歡迎<a id="report" href="#">來信告知</a>,幫助大家。`,
+    intro: `收錄自 <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">巴哈姆特哈啦板</a>,自 7/9 起。點按鈕或直接點碼即可複製。遊戲內 <span class="path">設定 → 其他 → 兌換碼</span> 輸入。`,
+    note: `發現失效的兌換碼?歡迎<a id="report" href="mailto:raellen.chang@gmail.com?subject=${encodeURIComponent("燕雲兌換碼失效回報")}">來信告知</a>,幫助大家。`,
     authorBtn: "作者介紹",
     searchPlaceholder: "搜尋兌換碼…",
     statLabel: "已複製",
@@ -409,8 +409,8 @@ const I18N = {
     eyebrow: "Redemption Codes",
     title: "Where Winds Meet Codes",
     updatedLabel: "Last updated",
-    intro: `Collected from the <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">Bahamut forum</a>, starting 7/9 (<span class="path">JXT3CTJHWP</span>). Click a button or the code itself to copy. Redeem in-game via <span class="path">Settings → Other → Exchange Code</span>.`,
-    note: `Found an expired code? Please <a id="report" href="#">let me know</a> to help others.`,
+    intro: `Collected from the <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">Bahamut forum</a>, starting 7/9. Click a button or the code itself to copy. Redeem in-game via <span class="path">Settings → Other → Exchange Code</span>.`,
+    note: `Found an expired code? Please <a id="report" href="mailto:raellen.chang@gmail.com?subject=${encodeURIComponent("WWM code report")}">let me know</a> to help others.`,
     authorBtn: "About the author",
     searchPlaceholder: "Search codes…",
     statLabel: "copied",
@@ -444,17 +444,6 @@ const t = () => I18N[lang];
 
 const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
 
-function bindReport() {
-  const el = document.getElementById("report");
-  if (!el) return;
-  el.addEventListener("click", e => {
-    e.preventDefault();
-    const user = ["raellen", "chang"].join(".");
-    const host = ["gmail", "com"].join(".");
-    location.href = `mailto:${user}@${host}?subject=${encodeURIComponent("燕雲兌換碼失效回報")}`;
-  });
-}
-
 function applyLang() {
   const d = t();
   document.documentElement.lang = d.htmlLang;
@@ -464,7 +453,6 @@ function applyLang() {
   setText("updatedLabel", d.updatedLabel);
   document.getElementById("intro").innerHTML = d.intro;
   document.getElementById("note").innerHTML = d.note;
-  bindReport();
   setText("authorBtnText", d.authorBtn);
   document.getElementById("q").placeholder = d.searchPlaceholder;
   setText("statLabel", d.statLabel);
