@@ -506,6 +506,14 @@ function updateStat() {
     allCodes.filter(c => done.has(c)).length;
 }
 
+const MONTHS_EN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+// 英文版把 "8/30" 顯示成 "Aug 30";中文維持原樣
+function fmtDate(str) {
+  if (lang !== "en") return str;
+  const m = str.match(/^(\d{1,2})\/(\d{1,2})$/);
+  return m ? `${MONTHS_EN[+m[1] - 1]} ${+m[2]}` : str;
+}
+
 function render(filter = "") {
   const f = filter.trim().toLowerCase();
   listEl.innerHTML = "";
@@ -518,7 +526,7 @@ function render(filter = "") {
     if (!matches.length) return;
     shown += matches.length;
 
-    const dateLabel = group.date === "無時限" ? d.noExpiry : group.date;
+    const dateLabel = group.date === "無時限" ? d.noExpiry : fmtDate(group.date);
     const tagHtml = (group.tag && lang === "zh") ? ` <span class="tag">${group.tag}</span>` : "";
     const section = document.createElement("section");
     section.className = "group";
