@@ -107,15 +107,20 @@
   }
   .nav-brand svg { width: 18px; height: 18px; color: var(--jade); }
   .nav-actions { display: flex; align-items: center; gap: 8px; }
-  .lang-btn {
-    font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+  .lang-select {
     display: inline-flex; align-items: center; gap: 6px;
     background: var(--jade-tint); color: var(--jade);
-    border: 1px solid var(--jade-deep); border-radius: 8px; padding: 7px 13px;
-    transition: .15s;
+    border: 1px solid var(--jade-deep); border-radius: 8px;
+    padding: 6px 8px 6px 11px; transition: .15s;
   }
-  .lang-btn:hover { background: var(--jade); color: var(--paper-raised); border-color: transparent; }
-  .lang-btn svg { width: 14px; height: 14px; }
+  .lang-select:hover { border-color: var(--jade); }
+  .lang-select svg { width: 14px; height: 14px; flex: none; }
+  .lang-select select {
+    font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    border: none; background: none; outline: none; color: var(--jade);
+    padding-right: 2px; max-width: 40vw;
+  }
+  .lang-select select option { color: var(--ink); background: var(--paper-raised); font-weight: 500; }
 
   .toolbar {
     position: sticky; top: 52px; z-index: 10;
@@ -267,10 +272,10 @@
       <span id="navBrandText">燕雲兌換碼</span>
     </a>
     <div class="nav-actions">
-      <button class="lang-btn" id="langToggle">
+      <div class="lang-select">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
-        <span id="langToggleText">EN</span>
-      </button>
+        <select id="langSelect" aria-label="Language"></select>
+      </div>
     </div>
   </nav>
 
@@ -369,17 +374,19 @@ let toastTimer;
 const allCodes = DATA.flatMap(g => g.codes);
 document.getElementById("totalCount").textContent = allCodes.length;
 
-// ---- 雙語 i18n ----
+// ---- 多語 i18n ----
+const FORUM = `<a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">`;
+const MAILTO = subj => `mailto:raellen.chang@gmail.com?subject=${encodeURIComponent(subj)}`;
 const I18N = {
   zh: {
-    htmlLang: "zh-Hant",
+    label: "中文", htmlLang: "zh-Hant",
     docTitle: "燕雲十六聲兌換碼",
     navBrand: "燕雲兌換碼",
     eyebrow: "兌換碼 · Redemption Codes",
     title: "燕雲十六聲兌換碼",
     updatedLabel: "最新更新時間",
-    intro: `收錄自 <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">巴哈姆特哈啦板</a>,自 7/9 起。點按鈕或直接點碼即可複製。遊戲內 <span class="path">設定 → 其他 → 兌換碼</span> 輸入。`,
-    note: `發現失效的兌換碼?歡迎<a id="report" href="mailto:raellen.chang@gmail.com?subject=${encodeURIComponent("燕雲兌換碼失效回報")}">來信告知</a>,幫助大家。`,
+    intro: `收錄自 ${FORUM}巴哈姆特哈啦板</a>,自 7/9 起。點按鈕或直接點碼即可複製。遊戲內 <span class="path">設定 → 其他 → 兌換碼</span> 輸入。`,
+    note: `發現失效的兌換碼?歡迎<a id="report" href="${MAILTO("燕雲兌換碼失效回報")}">來信告知</a>,幫助大家。`,
     authorBtn: "作者介紹",
     searchPlaceholder: "搜尋兌換碼…",
     statLabel: "已複製",
@@ -401,18 +408,16 @@ const I18N = {
     copiedId: id => "已複製角色編號  " + id,
     noMarks: "目前沒有標記",
     cleared: "已清除所有標記",
-    toggle: "EN",
-    toggleTitle: "Switch to English",
   },
   en: {
-    htmlLang: "en",
+    label: "English", htmlLang: "en",
     docTitle: "Where Winds Meet Redemption Codes",
     navBrand: "WWM Codes",
     eyebrow: "Redemption Codes",
     title: "Where Winds Meet Codes",
     updatedLabel: "Last updated",
-    intro: `Collected from the <a href="https://forum.gamer.com.tw/C.php?bsn=75703&snA=388&tnum=190" target="_blank" rel="noopener">Bahamut forum</a>, starting 7/9. Click a button or the code itself to copy. Redeem in-game via <span class="path">Settings → Other → Exchange Code</span>.`,
-    note: `Found an expired code? Please <a id="report" href="mailto:raellen.chang@gmail.com?subject=${encodeURIComponent("WWM code report")}">let me know</a> to help others.`,
+    intro: `Collected from the ${FORUM}Bahamut forum</a>, starting 7/9. Click a button or the code itself to copy. Redeem in-game via <span class="path">Settings → Other → Exchange Code</span>.`,
+    note: `Found an expired code? Please <a id="report" href="${MAILTO("WWM code report")}">let me know</a> to help others.`,
     authorBtn: "About the author",
     searchPlaceholder: "Search codes…",
     statLabel: "copied",
@@ -434,14 +439,178 @@ const I18N = {
     copiedId: id => "Copied character ID  " + id,
     noMarks: "No marks yet",
     cleared: "All marks cleared",
-    toggle: "中文",
-    toggleTitle: "切換為中文",
+  },
+  vi: {
+    label: "Tiếng Việt", htmlLang: "vi",
+    docTitle: "Mã đổi thưởng Where Winds Meet",
+    navBrand: "WWM Codes",
+    eyebrow: "Mã đổi thưởng",
+    title: "Mã Where Winds Meet",
+    updatedLabel: "Cập nhật lần cuối",
+    intro: `Tổng hợp từ ${FORUM}diễn đàn Bahamut</a>, bắt đầu từ 7/9. Nhấn nút hoặc nhấn trực tiếp vào mã để sao chép. Đổi trong game qua <span class="path">Cài đặt → Khác → Mã đổi thưởng</span>.`,
+    note: `Phát hiện mã hết hạn? Hãy <a id="report" href="${MAILTO("WWM code report")}">báo cho mình</a> để giúp mọi người.`,
+    authorBtn: "Giới thiệu tác giả",
+    searchPlaceholder: "Tìm mã…",
+    statLabel: "đã sao chép",
+    reset: "Xóa đánh dấu",
+    groupCount: n => `${n} mã`,
+    copyAll: "Sao chép tất cả",
+    copy: "Sao chép",
+    codeTitle: "Nhấn để sao chép",
+    noExpiry: "Không hết hạn",
+    authorName: "芮璃 (Raellen)",
+    authorIdLabel: "ID nhân vật",
+    idCopy: "Sao chép",
+    authorTag: "Tác giả · Where Winds Meet",
+    footer: total => `Tổng cộng ${total} mã. Dấu “đã sao chép” chỉ lưu trong trình duyệt của bạn (localStorage) và không được tải lên. Mã có thể hết hạn hoặc không còn hiệu lực — hãy tham khảo nguồn chính thức và bài gốc.`,
+    toTop: "Lên đầu trang",
+    empty: f => `Không tìm thấy mã khớp với “${f}”`,
+    copied: v => "Đã sao chép  " + v,
+    copiedGroup: n => `Đã sao chép ${n} mã (mỗi mã một dòng)`,
+    copiedId: id => "Đã sao chép ID nhân vật  " + id,
+    noMarks: "Chưa có đánh dấu",
+    cleared: "Đã xóa mọi đánh dấu",
+  },
+  id: {
+    label: "Bahasa Indonesia", htmlLang: "id",
+    docTitle: "Kode Tukar Where Winds Meet",
+    navBrand: "WWM Codes",
+    eyebrow: "Kode Tukar",
+    title: "Kode Where Winds Meet",
+    updatedLabel: "Terakhir diperbarui",
+    intro: `Dikumpulkan dari ${FORUM}forum Bahamut</a>, mulai 7/9. Klik tombol atau langsung klik kodenya untuk menyalin. Tukar di dalam game via <span class="path">Pengaturan → Lainnya → Kode Tukar</span>.`,
+    note: `Menemukan kode kedaluwarsa? Silakan <a id="report" href="${MAILTO("WWM code report")}">beri tahu saya</a> untuk membantu yang lain.`,
+    authorBtn: "Tentang penulis",
+    searchPlaceholder: "Cari kode…",
+    statLabel: "disalin",
+    reset: "Hapus tanda",
+    groupCount: n => `${n} kode`,
+    copyAll: "Salin semua",
+    copy: "Salin",
+    codeTitle: "Klik untuk menyalin",
+    noExpiry: "Tanpa Kedaluwarsa",
+    authorName: "芮璃 (Raellen)",
+    authorIdLabel: "ID Karakter",
+    idCopy: "Salin",
+    authorTag: "Penulis situs · Where Winds Meet",
+    footer: total => `Total ${total} kode. Tanda “disalin” hanya tersimpan di browser Anda (localStorage) dan tidak pernah diunggah. Kode bisa kedaluwarsa atau tidak berlaku — rujuk sumber resmi dan utas aslinya.`,
+    toTop: "Ke atas",
+    empty: f => `Tidak ada kode yang cocok dengan “${f}”`,
+    copied: v => "Disalin  " + v,
+    copiedGroup: n => `Menyalin ${n} kode (dipisah baris baru)`,
+    copiedId: id => "ID karakter disalin  " + id,
+    noMarks: "Belum ada tanda",
+    cleared: "Semua tanda dihapus",
+  },
+  th: {
+    label: "ภาษาไทย", htmlLang: "th",
+    docTitle: "โค้ดแลกของ Where Winds Meet",
+    navBrand: "WWM Codes",
+    eyebrow: "โค้ดแลกของ",
+    title: "โค้ด Where Winds Meet",
+    updatedLabel: "อัปเดตล่าสุด",
+    intro: `รวบรวมจาก ${FORUM}ฟอรัม Bahamut</a> ตั้งแต่ 7/9 กดปุ่มหรือกดที่โค้ดเพื่อคัดลอก แลกในเกมที่ <span class="path">ตั้งค่า → อื่นๆ → โค้ดแลกของ</span>`,
+    note: `เจอโค้ดหมดอายุ? <a id="report" href="${MAILTO("WWM code report")}">แจ้งเราได้เลย</a> เพื่อช่วยคนอื่นๆ`,
+    authorBtn: "เกี่ยวกับผู้จัดทำ",
+    searchPlaceholder: "ค้นหาโค้ด…",
+    statLabel: "คัดลอกแล้ว",
+    reset: "ล้างเครื่องหมาย",
+    groupCount: n => `${n} โค้ด`,
+    copyAll: "คัดลอกทั้งหมด",
+    copy: "คัดลอก",
+    codeTitle: "คลิกเพื่อคัดลอก",
+    noExpiry: "ไม่มีวันหมดอายุ",
+    authorName: "芮璃 (Raellen)",
+    authorIdLabel: "ID ตัวละคร",
+    idCopy: "คัดลอก",
+    authorTag: "ผู้จัดทำ · Where Winds Meet",
+    footer: total => `โค้ดทั้งหมด ${total} รายการ เครื่องหมาย “คัดลอกแล้ว” จะเก็บไว้ในเบราว์เซอร์ของคุณเท่านั้น (localStorage) และไม่มีการอัปโหลด โค้ดอาจหมดอายุหรือใช้ไม่ได้ โปรดอ้างอิงแหล่งข้อมูลทางการและกระทู้ต้นฉบับ`,
+    toTop: "กลับขึ้นบน",
+    empty: f => `ไม่พบโค้ดที่ตรงกับ “${f}”`,
+    copied: v => "คัดลอกแล้ว  " + v,
+    copiedGroup: n => `คัดลอก ${n} โค้ด (แยกบรรทัด)`,
+    copiedId: id => "คัดลอก ID ตัวละครแล้ว  " + id,
+    noMarks: "ยังไม่มีเครื่องหมาย",
+    cleared: "ล้างเครื่องหมายทั้งหมดแล้ว",
+  },
+  ko: {
+    label: "한국어", htmlLang: "ko",
+    docTitle: "Where Winds Meet 교환 코드",
+    navBrand: "WWM Codes",
+    eyebrow: "교환 코드",
+    title: "Where Winds Meet 코드",
+    updatedLabel: "마지막 업데이트",
+    intro: `${FORUM}바하무트 포럼</a>에서 수집, 7/9부터. 버튼을 누르거나 코드를 직접 눌러 복사하세요. 게임 내 <span class="path">설정 → 기타 → 교환 코드</span>에서 입력.`,
+    note: `만료된 코드를 발견하셨나요? <a id="report" href="${MAILTO("WWM code report")}">알려주시면</a> 다른 분들께 도움이 됩니다.`,
+    authorBtn: "제작자 소개",
+    searchPlaceholder: "코드 검색…",
+    statLabel: "복사됨",
+    reset: "표시 지우기",
+    groupCount: n => `${n}개`,
+    copyAll: "전체 복사",
+    copy: "복사",
+    codeTitle: "클릭하여 복사",
+    noExpiry: "무기한",
+    authorName: "芮璃 (Raellen)",
+    authorIdLabel: "캐릭터 번호",
+    idCopy: "복사",
+    authorTag: "사이트 제작자 · Where Winds Meet",
+    footer: total => `총 ${total}개 코드. “복사됨” 표시는 브라우저(localStorage)에만 저장되며 업로드되지 않습니다. 코드는 만료되거나 무효가 될 수 있으니 공식 출처와 원본 게시글을 참고하세요.`,
+    toTop: "맨 위로",
+    empty: f => `“${f}”에 해당하는 코드가 없습니다`,
+    copied: v => "복사됨  " + v,
+    copiedGroup: n => `${n}개 코드 복사됨 (줄바꿈 구분)`,
+    copiedId: id => "캐릭터 번호 복사됨  " + id,
+    noMarks: "표시가 없습니다",
+    cleared: "모든 표시를 지웠습니다",
+  },
+  ja: {
+    label: "日本語", htmlLang: "ja",
+    docTitle: "Where Winds Meet 交換コード",
+    navBrand: "WWM Codes",
+    eyebrow: "交換コード",
+    title: "Where Winds Meet コード",
+    updatedLabel: "最終更新",
+    intro: `${FORUM}Bahamut フォーラム</a>より収集、7/9から。ボタンまたはコードを直接クリックでコピー。ゲーム内の <span class="path">設定 → その他 → 交換コード</span> で入力。`,
+    note: `期限切れのコードを見つけたら、<a id="report" href="${MAILTO("WWM code report")}">お知らせください</a>。みんなの助けになります。`,
+    authorBtn: "作者について",
+    searchPlaceholder: "コードを検索…",
+    statLabel: "コピー済み",
+    reset: "マークを消す",
+    groupCount: n => `${n}件`,
+    copyAll: "まとめてコピー",
+    copy: "コピー",
+    codeTitle: "クリックでコピー",
+    noExpiry: "無期限",
+    authorName: "芮璃 (Raellen)",
+    authorIdLabel: "キャラクター番号",
+    idCopy: "コピー",
+    authorTag: "サイト作者 · Where Winds Meet",
+    footer: total => `全 ${total} 件のコード。「コピー済み」マークはブラウザ(localStorage)にのみ保存され、アップロードされません。コードは期限切れや無効になる場合があります。公式情報と元スレッドをご確認ください。`,
+    toTop: "トップへ戻る",
+    empty: f => `「${f}」に一致するコードが見つかりません`,
+    copied: v => "コピーしました  " + v,
+    copiedGroup: n => `${n}件をコピーしました(改行区切り)`,
+    copiedId: id => "キャラクター番号をコピーしました  " + id,
+    noMarks: "マークはありません",
+    cleared: "すべてのマークを消しました",
   },
 };
 
 const LANG_KEY = "wwm-lang";
-let lang = localStorage.getItem(LANG_KEY) ||
-  ((navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en");
+function detectLang() {
+  const stored = localStorage.getItem(LANG_KEY);
+  if (stored && I18N[stored]) return stored;
+  const navs = (navigator.languages && navigator.languages.length)
+    ? navigator.languages : [navigator.language || ""];
+  for (const n of navs) {
+    const primary = n.toLowerCase().split("-")[0];
+    if (primary === "zh") return "zh";
+    if (I18N[primary]) return primary;
+  }
+  return "en";
+}
+let lang = detectLang();
 const t = () => I18N[lang];
 
 const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
@@ -467,9 +636,8 @@ function applyLang() {
   const tt = document.getElementById("toTop");
   if (tt) { tt.title = d.toTop; tt.setAttribute("aria-label", d.toTop); }
   setText("navBrandText", d.navBrand);
-  setText("langToggleText", d.toggle);
-  const tg = document.getElementById("langToggle");
-  if (tg) tg.title = d.toggleTitle;
+  const sel = document.getElementById("langSelect");
+  if (sel) sel.value = lang;
 }
 
 function showToast(msg) {
@@ -587,13 +755,19 @@ document.getElementById("reset").addEventListener("click", () => {
   showToast(t().cleared);
 });
 
-// 語言切換
-document.getElementById("langToggle").addEventListener("click", () => {
-  lang = lang === "zh" ? "en" : "zh";
-  localStorage.setItem(LANG_KEY, lang);
-  applyLang();
-  render(document.getElementById("q").value);
-});
+// 語言選單:填入選項並綁定切換
+(() => {
+  const sel = document.getElementById("langSelect");
+  sel.innerHTML = Object.entries(I18N)
+    .map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
+  sel.value = lang;
+  sel.addEventListener("change", e => {
+    lang = e.target.value;
+    localStorage.setItem(LANG_KEY, lang);
+    applyLang();
+    render(document.getElementById("q").value);
+  });
+})();
 
 applyLang();
 render();
